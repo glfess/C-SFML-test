@@ -4,8 +4,8 @@ project(SFML-Test VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Явно указываем путь к корневой директории SFML
-set(SFML_ROOT "C:/SFML-3.0.0")  # Замените на ваш путь
+
+set(SFML_ROOT "C:/SFML-3.0.0")
 set(SFML_DIR "${SFML_ROOT}/lib/cmake/SFML")
 
 find_package(SFML REQUIRED COMPONENTS graphics window system)
@@ -32,12 +32,10 @@ target_include_directories(SFML-Test PRIVATE
     source/Include
 )
 
-# Правильное определение пути к папке bin
 set(SFML_BIN_DIR "${SFML_ROOT}/bin")
 
-# Копирование DLL файлов SFML
 if(WIN32)
-    # Для Debug сборки
+    # Debug
     add_custom_command(TARGET SFML-Test POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
             "${SFML_BIN_DIR}/sfml-graphics-d-2.dll"
@@ -56,7 +54,7 @@ if(WIN32)
             $<TARGET_FILE_DIR:SFML-Test>
     )
     
-    # Для Release сборки (опционально)
+    #Release
     add_custom_command(TARGET SFML-Test POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
             "${SFML_BIN_DIR}/sfml-graphics-2.dll"
@@ -76,7 +74,6 @@ if(WIN32)
     )
 endif()
 
-# Копирование ресурсов
 add_custom_command(TARGET SFML-Test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/resources
